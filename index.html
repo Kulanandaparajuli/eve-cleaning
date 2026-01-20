@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eve Facility Services - Cleaning Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .logo-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem;
+            border-radius: 1rem;
+        }
+        .nav-item.active {
+            background-color: #374151;
+            border-bottom: 2px solid #a855f7;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="app">
+        <!-- Login Page -->
+        <div id="loginPage" class="min-h-screen flex items-center justify-center p-4">
+            <div class="max-w-md w-full">
+                <div class="bg-white rounded-2xl shadow-xl p-8">
+                    <div class="text-center mb-8">
+                        <div class="logo-container inline-block mb-4">
+                            <img src="https://www.genspark.ai/api/files/s/RwgaWbZY" alt="Eve Group Logo" class="h-20 w-auto mx-auto">
+                        </div>
+                        <h1 class="text-3xl font-bold text-gray-800">Eve Facility Services</h1>
+                        <p class="text-gray-600 mt-2">Cleaning Management System</p>
+                    </div>
+                    
+                    <form id="loginForm" class="space-y-6" onsubmit="handleLogin(event)">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                            <input type="email" id="email" required value="admin@evegroup.com.au"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                placeholder="your.email@example.com">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                            <input type="password" id="password" required value="admin123"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                                placeholder="••••••••">
+                        </div>
+                        
+                        <div id="loginError" class="hidden bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm"></div>
+                        
+                        <button type="submit" 
+                            class="w-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all duration-200 shadow-lg">
+                            <i class="fas fa-sign-in-alt mr-2"></i>
+                            Sign In
+                        </button>
+                    </form>
+                    
+                    <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+                        <p class="text-xs text-blue-800 font-semibold mb-2">Demo Accounts:</p>
+                        <div class="text-xs text-blue-700 space-y-1">
+                            <p><strong>Admin:</strong> admin@evegroup.com.au / admin123</p>
+                            <p><strong>Manager:</strong> manager@evegroup.com.au / admin123</p>
+                            <p><strong>Cleaner:</strong> cleaner@evegroup.com.au / admin123</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Dashboard (hidden by default) -->
+        <div id="dashboardPage" class="hidden min-h-screen">
+            <!-- Header -->
+            <header class="bg-white shadow-md">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center space-x-4">
+                            <img src="https://www.genspark.ai/api/files/s/RwgaWbZY" alt="Logo" class="h-12">
+                            <div>
+                                <h1 class="text-2xl font-bold text-gray-800">Eve Facility Services</h1>
+                                <p class="text-sm text-gray-600">Cleaning Management System</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="text-right">
+                                <p class="text-sm font-semibold text-gray-800" id="userName"></p>
+                                <p class="text-xs text-gray-600 capitalize" id="userRole"></p>
+                            </div>
+                            <button onclick="logout()" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm">
+                                <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Navigation -->
+            <nav class="bg-gray-800 text-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex space-x-1" id="mainNav">
+                        <button onclick="loadView('home')" class="nav-item active px-4 py-3 hover:bg-gray-700 transition-colors">
+                            <i class="fas fa-home mr-2"></i>Dashboard
+                        </button>
+                        <button onclick="loadView('shifts')" class="nav-item px-4 py-3 hover:bg-gray-700 transition-colors">
+                            <i class="fas fa-calendar-alt mr-2"></i>Shifts
+                        </button>
+                        <button onclick="loadView('sites')" class="nav-item px-4 py-3 hover:bg-gray-700 transition-colors">
+                            <i class="fas fa-building mr-2"></i>Sites
+                        </button>
+                        <button onclick="loadView('timesheets')" class="nav-item px-4 py-3 hover:bg-gray-700 transition-colors">
+                            <i class="fas fa-clock mr-2"></i>Timesheets
+                        </button>
+                        <button onclick="loadView('issues')" class="nav-item px-4 py-3 hover:bg-gray-700 transition-colors">
+                            <i class="fas fa-exclamation-circle mr-2"></i>Issues
+                        </button>
+                        <button onclick="loadView('reports')" class="nav-item px-4 py-3 hover:bg-gray-700 transition-colors">
+                            <i class="fas fa-chart-bar mr-2"></i>Reports
+                        </button>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- Main Content -->
+            <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div id="mainContent"></div>
+            </main>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
